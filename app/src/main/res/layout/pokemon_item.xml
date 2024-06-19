@@ -62,9 +62,9 @@
                 android:id="@+id/tvTypeOne"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:background="#fd7d24"
+                android:background="#A4ACAF"
                 android:gravity="center_horizontal"
-                android:textColor="#4A148C"
+                android:textColor="#212121"
                 android:textSize="12sp"
                 tools:text="Fire" />
 
@@ -73,9 +73,9 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:background="#fd7d24"
+                android:background="#A4ACAF"
                 android:gravity="center_horizontal"
-                android:textColor="#4A148C"
+                android:textColor="#212121"
                 android:textSize="12sp"
                 tools:text="Fire" />
 

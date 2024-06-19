@@ -8,11 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.pokedex.R
 import com.android.pokedex.domain.Pokemon
+import com.bumptech.glide.Glide
 
-class PokemonAdapter(private val items: List<Pokemon>) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
+class PokemonAdapter(private val items: List<Pokemon?>) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(item: Pokemon) = with(itemView) {
+        fun bindView(item: Pokemon?) = with(itemView) {
             val ivPokemon = findViewById<ImageView>(R.id.ivPokemon)
             val tvNumber = findViewById<TextView>(R.id.tvNumber)
             val tvName = findViewById<TextView>(R.id.tvName)
@@ -21,16 +22,25 @@ class PokemonAdapter(private val items: List<Pokemon>) : RecyclerView.Adapter<Po
 
             // TODO Carregar Imagem
 
-            tvNumber.text = "Nº ${item.formattedNumber}"
-            tvName.text = item.name
-            tvTypeOne.text = item.types[0].name
+            item.let {
+                if (item != null) {
 
-            if (item.types.size > 1) {
-                tvTypeTwo.visibility = View.VISIBLE
-                tvTypeTwo.text = item.types[1].name
-            } else {
-                tvTypeTwo.visibility = View.GONE
+                    Glide.with(itemView.context).load(it?.imageUrl).into(ivPokemon)
+
+                    tvNumber.text = "Nº ${item.formattedNumber}"
+                    tvName.text = item.formattedName
+                    tvTypeOne.text = item.types[0].name.capitalize()
+                    if (item.types.size > 1) {
+                        tvTypeTwo.visibility = View.VISIBLE
+                        tvTypeTwo.text = item.types[1].name.capitalize()
+                    } else {
+                        tvTypeTwo.visibility = View.GONE
+                    }
+                }
+
             }
+
+
         }
     }
 
