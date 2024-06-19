@@ -1,30 +1,26 @@
 package com.android.pokedex.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.pokedex.R
 import com.android.pokedex.api.PokemonRepository
 import com.android.pokedex.domain.Pokemon
-import com.android.pokedex.domain.PokemonType
-import kotlinx.coroutines.Runnable
+import com.android.pokedex.viewmodel.PokemonViewModel
+import com.android.pokedex.viewmodel.PokemonViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    var pokemons = MutableLiveData<List<Pokemon?>>()
 
-        try {
-            setContentView(R.layout.activity_main)
-            recyclerView = findViewById(R.id.rvPokemons)
-            Thread(Runnable {
-                loadPokemons()
-            }).start()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    val viewModel by lazy {
+        ViewModelProvider(this, PokemonViewModelFactory()).get(PokemonViewModel::class.java)
     }
 
     private fun loadPokemons() {
@@ -32,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         pokemonsApiResult?.results?.let {
 
 
-            val pokemons: List<Pokemon?> = it.map {pokemonResult ->
+            pokemons.postValue(it.map {pokemonResult ->
                 val number = pokemonResult.url
                     .replace("https://pokeapi.co/api/v2/pokemon/", "")
                     .replace("/", "").toInt()
@@ -49,13 +45,28 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
 
-            }
-            val layoutManager = LinearLayoutManager(this)
+            })
 
-            recyclerView.post {
-                recyclerView.layoutManager = layoutManager
-                recyclerView.adapter = PokemonAdapter(pokemons)
-            }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        try {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+            recyclerView = findViewById(R.id.rvPokemons)
+
+            viewModel.pokemons.observe(this, Observer{
+                loadRecyclerView(it)
+            })
+
+        } catch (e: Exception) {
+            Log.e("POKEMON_API", "ERRO AO CRIAR $e")
+        }
+    }
+
+    private fun loadRecyclerView(pokemons: List<Pokemon?>) {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = PokemonAdapter(pokemons)
     }
 }
