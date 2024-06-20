@@ -13,12 +13,13 @@ class PokemonViewModel : ViewModel() {
             loadPokemons()
         }).start()
     }
+
     private fun loadPokemons() {
         val pokemonsApiResult = PokemonRepository.listPokemons()
         pokemonsApiResult?.results?.let {
 
 
-            pokemons.postValue(it.map {pokemonResult ->
+            pokemons.postValue(it.map { pokemonResult ->
                 val number = pokemonResult.url
                     .replace("https://pokeapi.co/api/v2/pokemon/", "")
                     .replace("/", "").toInt()

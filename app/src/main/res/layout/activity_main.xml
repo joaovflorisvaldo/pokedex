@@ -12,33 +12,34 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="#6F4E37"
+        android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/Titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:text="POKEDEX"
-            android:textSize="20dp"
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
+            android:textSize="20dp"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPokemons"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:listitem="@layout/pokemon_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPokemons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/pokemon_item" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
